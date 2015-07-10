@@ -12,6 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require angular
 //= require bootstrap-sprockets
-//= require jquery-fileupload
+//= require jquery-fileupload/basic
+//= require jquery-fileupload/jquery.fileupload-process
+//= require jquery-fileupload/jquery.fileupload-angular
 //= require_tree .
