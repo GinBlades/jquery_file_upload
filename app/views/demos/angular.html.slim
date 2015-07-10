@@ -1,0 +1,97 @@
+form#fileupload action="/uploads" data-file-upload="options" data-ng-app="demo" data-ng-class="{'fileupload-processing': processing() || loadingFiles}" data-ng-controller="DemoFileUploadController" enctype="multipart/form-data" method="POST"
+  / The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload
+  .row.fileupload-buttonbar
+    .col-lg-7
+      / The fileinput-button span is used to style the file input field as button
+      span.btn.btn-success.fileinput-button ng-class="{disabled: disabled}"
+        i.glyphicon.glyphicon-plus
+        span Add files...
+        input multiple=true name="upload[thing][]" ng-disabled="disabled" type="file"
+      button.btn.btn-primary.start data-ng-click="submit()" type="button"
+        i.glyphicon.glyphicon-upload
+        span Start upload
+      button.btn.btn-warning.cancel data-ng-click="cancel()" type="button"
+        i.glyphicon.glyphicon-ban-circle
+        span Cancel upload
+      / The global file processing state
+      span.fileupload-process
+    / The global progress state
+    .col-lg-5.fade data-ng-class="{in: active()}"
+      / The global progress bar
+      .progress.progress-striped.active data-file-upload-progress="progress()"
+        .progress-bar.progress-bar-success data-ng-style="{width: num + '%'}"
+      / The extended global progress state
+      .progress-extended  
+  / The table listing the files available for upload/download
+  table.table.table-striped.files.ng-cloak
+    tr data-ng-class="{'processing': file.$processing()}" data-ng-repeat= "file in queue"
+      td data-ng-switch="" data-on="!!file.thumbnailUrl"
+        .preview data-ng-switch-when=true
+          a data-gallery="" data-ng-href="{{file.url}}" download="{{file.name}}" title="{{file.name}}"
+            img alt="" data-ng-src="{{file.thumbnailUrl}}"
+        .preview data-file-upload-preview="file" data-ng-switch-default=""
+      td
+        p.name data-ng-switch="" data-on="!!file.url"
+          span data-ng-switch="" data-ng-switch-when="true" data-on="!!file.thumbnailUrl"
+            a data-gallery="" data-ng-href="{{file.url}}" data-ng-switch-when=true download="{{file.name}}" title="{{file.name}}" {{file.name}}
+            a data-ng-href="{{file.url}}" data-ng-switch-default="" download="{{file.name}}" title="{{file.name}}" {{file.name}}
+          span data-ng-switch-default="" {{file.name}}
+        strong.error.text-danger data-ng-show="file.error" {{file.error}}
+      td
+        p.size
+          | {{file.size | formatFileSize}}
+        .progress.progress-striped.active.fade data-file-upload-progress="file.$progress()" data-ng-class="{pending: 'in'}[file.$state()]"
+          .progress-bar.progress-bar-success data-ng-style="{width: num + '%'}"
+      td
+        button.btn.btn-primary.start data-ng-click="file.$submit()" data-ng-disabled="file.$state() == 'pending' || file.$state() == 'rejected'" data-ng-hide="!file.$submit || options.autoUpload" type="button"}
+          i.glyphicon.glyphicon-upload
+          span Start
+        button.btn.btn-warning.cancel data-ng-click="file.$cancel()" data-ng-hide="!file.$cancel" type="button"}
+          i.glyphicon.glyphicon-ban-circle
+          span Cancel
+        button.btn.btn-danger.destroy data-ng-click="file.$destroy()" data-ng-controller="FileDestroyController" data-ng-hide="!file.$destroy" type="button"}
+          i.glyphicon.glyphicon-trash
+          span Delete
+br
+.panel.panel-default
+  .panel-heading
+    h3.panel-title Demo Notes
+  .panel-body
+    ul
+      li
+        The maximum file size for uploads in this demo is
+        strong 999 KB
+        | (default file size is unlimited).
+      li
+        Only image files (
+        strong JPG, GIF, PNG
+        | ) are allowed in this demo (by default there is no file type restriction).
+      li
+        Uploaded files will be deleted automatically after
+        strong 5 minutes or less
+        | (demo files are stored in memory).
+      li
+        You can
+        strong drag &amp; drop
+        files from your desktop on this webpage (see
+        a href="https://github.com/blueimp/jQuery-File-Upload/wiki/Browser-support"} Browser support
+      li
+        Please refer to the
+        a href="https://github.com/blueimp/jQuery-File-Upload"} project website
+        and
+        a href="https://github.com/blueimp/jQuery-File-Upload/wiki"} documentation
+        for more information.
+      li
+        Built with the
+        a href="http://getbootstrap.com/" Bootstrap
+        CSS framework and Icons from
+        a href="http://glyphicons.com/" Glyphicons
+/ The blueimp Gallery widget
+#blueimp-gallery.blueimp-gallery.blueimp-gallery-controls data-filter=":even"
+.slides
+  h3.title
+  a.prev ‹
+  a.next ›
+  a.close ×
+  a.play-pause
+  ol.indicator

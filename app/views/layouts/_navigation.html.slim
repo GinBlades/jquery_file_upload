@@ -1,0 +1,15 @@
+.navbar.navbar-default
+  .container
+    .navbar-header
+      button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-default .navbar-collapse"
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      = link_to "jQuery File Upload", root_path, class: "navbar-brand"
+    .navbar-collapse.collapse
+      ul.nav.navbar-nav
+        li = link_to "Basic", basic_path
+        li = link_to "Basic Plus", basic_plus_path
+        li = link_to "Basic Plus UI", basic_plus_ui_path
+        li = link_to "Angular", angular_path
+        li = link_to "jQuery UI", jquery_ui_path
