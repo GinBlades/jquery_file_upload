@@ -1,35 +1,28 @@
 class UploadsController < ApplicationController
   before_action :set_upload, only: [:show, :edit, :update, :destroy]
 
-  # GET /uploads
-  # GET /uploads.json
   def index
     @uploads = Upload.all
   end
 
-  # GET /uploads/1
-  # GET /uploads/1.json
   def show
   end
 
-  # GET /uploads/new
   def new
     @upload = Upload.new
   end
 
-  # GET /uploads/1/edit
   def edit
   end
 
-  # POST /uploads
-  # POST /uploads.json
   def create
     @upload = Upload.new(params_for_file_upload)
 
     respond_to do |format|
       if @upload.save
         format.html { redirect_to @upload, notice: 'Upload was successfully created.' }
-        format.json { render :show, status: :created, location: @upload }
+        format.json { render json: {files: [@upload.to_jq_upload]}, status: :created, location: @upload }
+        # format.json { render :show, status: :created, location: @upload }
       else
         format.html { render :new }
         format.json { render json: @upload.errors, status: :unprocessable_entity }
@@ -37,8 +30,6 @@ class UploadsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /uploads/1
-  # PATCH/PUT /uploads/1.json
   def update
     respond_to do |format|
       if @upload.update(upload_params)
@@ -51,8 +42,6 @@ class UploadsController < ApplicationController
     end
   end
 
-  # DELETE /uploads/1
-  # DELETE /uploads/1.json
   def destroy
     @upload.destroy
     respond_to do |format|
@@ -62,20 +51,17 @@ class UploadsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_upload
       @upload = Upload.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def upload_params
       params.require(:upload).permit(thing: [])
     end
 
     def params_for_file_upload
-      first_thing = upload_params[:thing][0]
       new_params = upload_params
-      new_params[:thing] = first_thing
+      new_params[:thing] = upload_params[:thing][0]
       new_params
     end
 end
